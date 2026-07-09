@@ -1,0 +1,10 @@
+[workspace]
+resolver = "2"
+members = ["programs/*"]
+
+[profile.release]
+overflow-checks = true
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
