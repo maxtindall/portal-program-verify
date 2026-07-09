@@ -29,6 +29,11 @@ jobs:
       - name: Write uploader keypair
         run: echo '${{ secrets.VERIFY_UPLOADER_KEYPAIR }}' > "$RUNNER_TEMP/uploader.json"
 
+      - name: Configure Solana CLI defaults
+        run: |
+          solana config set --url mainnet-beta --keypair "$RUNNER_TEMP/uploader.json"
+          solana config get
+
       # Build directly in the checkout too, so the exact canonical binary
       # can be downloaded as an artifact and deployed on-chain if the
       # currently-live program doesn't match it yet.
