@@ -24,6 +24,18 @@ jobs:
       - name: Write uploader keypair
         run: echo '${{ secrets.VERIFY_UPLOADER_KEYPAIR }}' > uploader.json
 
+      # Build directly in the checkout too, so the exact canonical binary
+      # can be downloaded as an artifact and deployed on-chain if the
+      # currently-live program doesn't match it yet.
+      - name: Build program (for artifact upload)
+        run: solana-verify build --library-name portal --base-image "$BASE_IMAGE"
+
+      - name: Upload built program as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: portal-so
+          path: target/deploy/portal.so
+
       # Native amd64 build here matches OtterSec's remote build environment
       # exactly (unlike Apple Silicon + QEMU emulation), so this build's hash
       # should match the on-chain program before we even submit the job.
