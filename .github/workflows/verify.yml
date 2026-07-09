@@ -21,6 +21,11 @@ jobs:
             https://github.com/solana-foundation/solana-verifiable-build/releases/download/v0.5.1/solana-verify-0.5.1-linux
           chmod +x /usr/local/bin/solana-verify
 
+      - name: Install Solana CLI
+        run: |
+          sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> "$GITHUB_PATH"
+
       - name: Write uploader keypair
         run: echo '${{ secrets.VERIFY_UPLOADER_KEYPAIR }}' > "$RUNNER_TEMP/uploader.json"
 
